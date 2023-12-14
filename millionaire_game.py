@@ -1,50 +1,53 @@
-"""
-gd
-"""
 import datetime
 import language_module
-
+ 
 LANGUAGE = "čeština"
-
+ 
 def load_questions(file_path):
     """
-    FD
+    Načítá otázky ze souboru
+    Rozděluje otázky do seznamu na základě pravidelných skupin po 6 řádcích.
+    Vrací seznam, kde každý podseznam obsahuje otázku, možnosti a správnou odpověď.
     """
     with open(file_path, 'r', encoding='utf-8') as file:
         lines = file.readlines()
     questions = [line.strip() for line in lines if line.strip()]
     return [questions[i:i + 6] for i in range(0, len(questions), 6)]
-
+ 
 def question(question_set):
     """
-    FG
+    Získává otázku, možnosti a správnou odpověď z dané sady otázek question_set
+    Vypisuje otázku a odpovědi, a ptá se hráče na odpověď.
+    Porovnává hráčovu odpověď
     """
     global LANGUAGE
     question, *options, correct_answer = question_set
     print(question)
-    for i, option in enumerate(options, 1):
-        print(f"{i}. {option}")
-
+    for option in options:
+        print(option)
+ 
     if LANGUAGE == 'čeština':
         user_answer = input("Tvoje odpověd: ").strip().upper()
     else:
         user_answer = input("Your answer: ").strip().upper()
-
+ 
     return user_answer == correct_answer
-
+ 
 def ask_name():
     """
-    HG
+    Ptá se hráče na jméno
     """
     global LANGUAGE
     if LANGUAGE == 'čeština':
         return input("Zadej svoje jméno: ").strip()
     else:
         return input("Enter your name: ").strip()
-
+ 
 def millionaire(file_path):
     """
-    GJ
+    Načte otázky ze souboru
+    Spouští program kde hráč odpovídá na otázky.
+    Aktualizuje peníze a vypisuje výsledky hráče.
     """
     global LANGUAGE
     name = ask_name()
@@ -55,7 +58,7 @@ def millionaire(file_path):
     else:
         print(f"Welcome, {name}!")
     print()
-
+ 
     for question_set in questions:
         if not question(question_set):
             print()
@@ -65,11 +68,11 @@ def millionaire(file_path):
             else:
                 print("Incorrect! Game over.")
                 print(f"Total money earned: ${money}")
-            return
-
+                return
+ 
         print()
         if LANGUAGE == 'čeština':
-            print("Šprávně! Získal jsi $1000.")
+            print("Správně! Získal jsi $1000.")
         else:
             print("Correct! You've earned $1000.")
         money += 1000
@@ -78,8 +81,13 @@ def millionaire(file_path):
         else:
             print(f"Total money earned: ${money}")
         print()
-
+ 
 if __name__ == "__main__":
+    """
+    Volá choose_language() pro výběr jazyka
+    Podle zvoleného jazyka vypisuje odpovídající uvítání
+    Spouští funkci millionaire s odpovídajícím souborem otázek pro daný jazyk.
+    """
     LANGUAGE = language_module.choose_language()
     if LANGUAGE == 'čeština':
         print(f"Pojď hrát milionáře v češtině.")
@@ -87,6 +95,6 @@ if __name__ == "__main__":
     else:
         print(f"Let's play Millionaire in {LANGUAGE}.")
         millionaire("questions_en.txt")
-
+ 
 now = datetime.datetime.now()
 print(now)
