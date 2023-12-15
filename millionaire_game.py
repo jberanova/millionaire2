@@ -60,6 +60,7 @@ def millionaire(file_path):
             if LANGUAGE == 'čeština':
                 print("Špatně! Prohrál jsi.")
                 print(f"Celkem máš peněz: ${money}")
+                return 
             else:
                 print("Incorrect! Game over.")
                 print(f"Total money earned: ${money}")
